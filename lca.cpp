@@ -1,53 +1,24 @@
-#include<iostream>
-#include<vector>
-#include<cmath>
-using namespace std;
-
-const int N = 1000 + 3;
-int n, q;
-struct Edge {
-    int v, w;
-    Edge(int v = 0, int w = 0) : v(v), w(w) {}
-};
-vector<Edge> g[N];
-
-int h[N], f[N], up[N][10];
-
-void dfs(int u) {
-    for (Edge &e : g[u]) {
-        int v = e.v, w = e.w;
-        if (v == up[u][0]) continue;
-
-        h[v] = h[u] + 1;
-        f[v] = f[u] + w;
-
-        up[v][0] = u;
-        for (int j = 1; j < 10; ++j)
-            up[v][j] = up[up[v][j - 1]][j - 1];
-
-        dfs(v);
-    }
-}
-
-int lca(int u, int v) {
-    if (h[u] != h[v]) {
-        if (h[u] < h[v]) swap(u, v);
+const int Lim = 25;
+int MX = 100010;
+int lca[Lim][MX];
+void dfs(int u, int f) {
+    lca[0][u] = f;
+    h[u] = h[f]+1;
+    for(int i=1; i<Lim; i++) lca[i][u] = lca[i-1][lca[i-1][u]];
     
-        int k = h[u] - h[v];
-        for (int j = 0; (1 << j) <= k; ++j)
-            if (k >> j & 1)
-                u = up[u][j];
-    }
-    if (u == v) return u;
-    
-    int k = __lg(h[u]);
-    for (int j = k; j >= 0; --j)
-        if (up[u][j] != up[v][j])
-            u = up[u][j], v = up[v][j];
-    return up[u][0];
+    for(int v:a[u])
+        if(v != f) dfs(v, u);
 }
-
-int dist(int u, int v) {
-    int p = lca(u, v);
-    return f[u] + f[v] - 2 * f[p];
+int LCA(int u, int v) {
+    if(h[u] != h[v]) {
+        if(h[u] < h[v]) swap(u, v);
+        int dif = h[u]-h[v];
+        for(int i=0; i<Lim; i++) 
+            if((dif>>i)&1) u = lca[i][u];
+    }
+    if(u == v) return u;
+    for(int j=Lim-1; j>=0; j--) {
+        if(lca[j][u] != lca[j][v]) u = lca[j][u], v = lca[j][v];
+    }
+    return lca[0][u];
 }
