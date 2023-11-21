@@ -29,16 +29,15 @@ int dy[] = {-1, 1, 0, 0};
 const ll pd = 998244353;
 const ll oo = 3e18 + 1;
 const int MX = 200100, Lim = 20, block = 320;
-int n, m, dtime = 0, num[MX], low[MX], vis[MX];
+int n, m, dtime = 0, num[MX], low[MX];
 vector<int> a[MX], khop;
 vector<pii> cau;
 void dfs(int u, int f) {
-    vis[u] = 1;
     num[u] = low[u] = ++dtime;
     int child = 0, ok = 0;
     for(int v:a[u]) {
         if(v == f) continue;
-        if(vis[v])
+        if(num[v])
             low[u] = min(low[u], num[v]);  
         else {
             dfs(v, u);
@@ -60,7 +59,7 @@ void TwinHter() {
     }
 
     for(int i=1; i<=n; i++) {
-        if(!vis[i]) dfs(i, i);
+        if(!num[i]) dfs(i, i);
     }
     cout << khop.size() << " " << cau.size() << '\n';
 }
