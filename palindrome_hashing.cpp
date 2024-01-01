@@ -54,38 +54,6 @@ void solve(){
 	for(int i=n-2; i>=0; i--) {
 		hsuf[i+1] = (hsuf[i+2]+(s[i]-'a')*pw[n-1-i]%hmod) % hmod;
 	}
-
-	ll ans = 0;
-	// 1 mid
-	for(int i=0; i<n; i++) {
-		int lim = min(i, (int)n-1-i);
-		ll pluss = 0;
-		for(int l=0, r=lim; l<=r;) {
-			int mid = l + (r-l)/2;
-			if(check(i-mid, i, i, i+mid) == 1) {
-				l = mid+1;
-				pluss = mid+1;
-			}
-			else r = mid-1;
-		}
-		ans += pluss;
-	}
-	//2 mid	
-	for(int i=0; i<n-1; i++) {
-		if(s[i] != s[i+1]) continue;
-		int lim = min(i, (int)n-2-i);
-		ll pluss = 0;
-		for(int l=0, r=lim; l<=r; ) {
-			int mid = l + (r-l)/2;
-			if(check(i-mid, i, i+1, i+1+mid)) {
-				l = mid+1;
-				pluss = mid + 1;
-			}
-			else r = mid-1;
-		}
-		ans += pluss;
-	}
-	cout << ans << endl;
 }
 int main (){
 	ios_base :: sync_with_stdio(0); cin.tie(0); cout.tie(0);
