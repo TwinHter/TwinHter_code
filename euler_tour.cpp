@@ -43,28 +43,15 @@ void ETT(int u, int f) {
         et[++N] = f; out[f] = N;
     }
 }
-
-int Find(int u, int dis) {
-    if(dis < 0) return -1;
-    for(int i=0; i<Lim; i++)
-        if((dis>>i)&1) u = up[i][u];
-    return u;
-}
 void TwinHter() {
-    int n, q; cin >> n >> q;
+    int n; cin >> n;
     for(int i=1; i<n; i++) {
         int u, v; cin >> u >> v;
         a[u].pb(v); a[v].pb(u);
     }
-    h[0] = -1;
+    h[0] = -1; N = 0;
     ETT(1, 0);
     for(int i=1; i<=n; i++)
         if(out[i] == 0) out[i] = in[i];
     //for(int i=1; i<=N; i++) cout << et[i] << " "; cout << '\n';
-}
-int main (){
-    ios_base :: sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    freopen("cf.inp", "r", stdin); //freopen("cf.out", "w", stdout);
-    int tests = 1; //cin >> tests; 
-    while(tests--) TwinHter();
 }
