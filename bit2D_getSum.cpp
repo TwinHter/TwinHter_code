@@ -51,23 +51,6 @@ void TwinHter() {
         bit[i][j] = 0;
         cur[i][j] = 0;
     }
-
-    string type;
-    while(1) {
-        cin >> type;
-        if(type == "END") return;
-        if(type == "SET") {
-            int x, y, val; cin >> x >> y >> val;
-            x++; y++;
-            update(x, y, -cur[x][y]+val);
-            cur[x][y] = val;
-        }
-        if(type == "SUM") {
-            int x1, y1, x2, y2; cin >> x1 >> y1 >> x2 >> y2;
-            x1++; y1++; x2++; y2++;
-            cout << query(x1, y1, x2, y2) << '\n';
-        }
-    }
 }
 int main (){
     ios_base :: sync_with_stdio(0); cin.tie(0); cout.tie(0);
