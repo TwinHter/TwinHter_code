@@ -32,36 +32,6 @@ const int MX = 100510, Lim = 60, base = 137;
 vector<pii> a[MX];
 ll dp[MX], pre[MX];
 bool vis[MX];
-// struct Edge {
-//     ll a, b;
-// };
-// vector<Edge> dq;
-// bool check(Edge l1, Edge l2, Edge l3) {
-//     return 1.L*(l3.b-l1.b)/(l1.a-l3.a) <= 1.L*(l2.b-l1.b)/(l1.a-l2.a);
-// }
-// void add(ll x, ll y) {
-//     struct Edge cur = {x, y};
-//     while(dq.size() >= 2) {
-//         int sz = dq.size()-1;
-//         if(check(dq[sz-1], dq[sz], cur)) dq.popb();
-//         else break; 
-//     }
-//     dq.pb(cur);
-// }
-// ll F(int id, int x) {
-//     return 1LL*dq[id].a*x + dq[id].b;
-// }
-// ll get(int u) {
-//     ll ans = oo;
-//     int l = 0, r = dq.size()-1;
-//     while(l < r) {
-//         int mid = (l+r)>>1;
-//         ll p1 = F(mid, u), p2 = F(mid+1, u);
-//         if(p1 <= p2) r = mid;
-//         else l = mid+1;
-//     }
-//     return F(l, u);
-// }
 void TwinHter() {
     int n, m, k; cin >> n >> m >> k;
     for(int i=1; i<=m; i++) {
@@ -72,36 +42,23 @@ void TwinHter() {
     for(pii u:a[1]) dp[u.fi] = u.se;
     for(int i=1; i<=n; i++) dp[i] = oo;
     dp[1] = 0;
-
-    // dp[u] = pre[v] + (v-u)^2 = pre[v]+v^2+u^2 - 2uv
-    // for(int i=1; i<=n; i++) add(-2*i, dp[i]+1LL*i*i);
-    // for(int kk=1; kk<=k+1; kk++) {
-        for(int i=1; i<=n; i++) vis[i] = false;
-        priority_queue<pli, vector<pli>, greater<pli> > pq;
-        while(!pq.empty()) pq.pop();
-        for(int i=1; i<=n; i++) {
-            if(dp[i] != oo) pq.push({dp[i], i});
-        }
-        while(!pq.empty()) {
-            pli p = pq.top(); pq.pop();
-            if(vis[p.se]) continue;
-            vis[p.se] = true;
-            for(pii u:a[p.se]) {
-                if(dp[u.fi] > dp[p.se]+u.se && !vis[u.fi]) {
-                    dp[u.fi] = dp[p.se] + u.se;
-                    pq.push({dp[u.fi], u.fi});
-                }
+    for(int i=1; i<=n; i++) vis[i] = false;
+    priority_queue<pli, vector<pli>, greater<pli> > pq;
+    while(!pq.empty()) pq.pop();
+    for(int i=1; i<=n; i++) {
+        if(dp[i] != oo) pq.push({dp[i], i});
+    }
+    while(!pq.empty()) {
+        pli p = pq.top(); pq.pop();
+        if(vis[p.se]) continue;
+        vis[p.se] = true;
+        for(pii u:a[p.se]) {
+            if(dp[u.fi] > dp[p.se]+u.se && !vis[u.fi]) {
+                dp[u.fi] = dp[p.se] + u.se;
+                pq.push({dp[u.fi], u.fi});
             }
-        } 
-    //     if(kk == k+1) break;
-    //     dq.clear();
-    //     for(int i=1; i<=n; i++) add(-2*i, dp[i]+1LL*i*i);
-    //     for(int i=2; i<=n; i++)
-    //         dp[i] = min(dp[i], get(i)+1LL*i*i);
-    // }
-    
-    // for(int i=1; i<=n; i++) cout << dp[i] << " ";
-    // cout << '\n';
+        }
+    }
 }
 int main (){
     ios_base :: sync_with_stdio(0); cin.tie(0); cout.tie(0);
