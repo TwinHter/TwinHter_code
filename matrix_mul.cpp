@@ -63,28 +63,9 @@ ll cal(ll f1, ll f2, ll f3) {
 }
 
 void TwinHter() {
-    ll f1, f2, f3, c; cin >> n >> f1 >> f2 >> f3 >> c;
-    ll f4 = c;
-
+    cin >> n ;
     base = {{0, 1, 0}, {0, 0, 1}, {1, 1, 1}};
     base = pw_matrix(base, n-3);
-
-    ll fk = max({f1, f2, f3, f4});
-    for(int i=2; i*i <= fk; i++) {
-        int c1 = 0, c2 = 0, c3 = 0, c4 = 0;
-        while(f1 % i == 0) {c1 += 1; f1 /= i;}
-        while(f2 % i == 0) {c2 += 1; f2 /= i;}
-        while(f3 % i == 0) {c3 += 1; f3 /= i;}
-        while(f4 % i == 0) {c4 += 1; f4 /= i;}
-        if(c1+c2+c3+c4 > 0) ans = ans * pw(i, cal(c1+c4, c2+c4*2, c3+c4*3)) % pd;
-    }
-    
-    if(f1 > 1) ans = ans * pw(f1, cal(1, 0, 0)) % pd;
-    if(f2 > 1) ans = ans * pw(f2, cal(0, 1, 0)) % pd;
-    if(f3 > 1) ans = ans * pw(f3, cal(0, 0, 1)) % pd;
-    if(f4 > 1) ans = ans * pw(f4, cal(1, 2, 3)) % pd;
-
-    cout << ans*inv(pw(c, n))%pd << '\n';
 }
 int main (){
     ios_base :: sync_with_stdio(0); cin.tie(0); cout.tie(0);
